@@ -1,7 +1,8 @@
 package entity
 
 import Bullet
-import action.DelayedAction
+import action.LimitedAction
+import action.RepeatedAction
 import animation.Animation
 import animation.Animations
 import game.Board
@@ -25,15 +26,26 @@ data class Player(
 
     private val rocketFire: RocketFire = this.RocketFire()
     private val particles: MutableList<Particle> = mutableListOf()
-    private val spawnParticleAction = DelayedAction(
-        delay = 50,
-        delayedAction = {
-            if (isMoving()) {
-                TODO("Spawn particles in moving direction")
-            } else {
-                TODO("Spawn particles in random direction")
-            }
+    private val bullets: MutableList<Bullet> = mutableListOf()
+
+    private val fireAction = LimitedAction(
+        delay = 150,
+        limitedAction = {
+            TODO("")
         }
+    )
+
+    private val repeatedActions: List<RepeatedAction> = listOf(
+        RepeatedAction(
+            delay = 50,
+            repeatedAction = {
+                if (isMoving()) {
+                    TODO("Spawn particles in moving direction")
+                } else {
+                    TODO("Spawn particles in random direction")
+                }
+            }
+        )
     )
 
     fun isMovingLeft(): Boolean = dx < 0
@@ -73,7 +85,9 @@ data class Player(
         rocketFire.update(elapsedTime)
 
         // Perform actions
-        spawnParticleAction.perform()
+        for (repeatedAction: RepeatedAction in repeatedActions) {
+            repeatedAction.perform()
+        }
     }
 
     override fun render(graphics: Graphics2D) {
