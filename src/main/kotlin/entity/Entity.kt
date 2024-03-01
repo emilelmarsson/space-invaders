@@ -13,7 +13,6 @@ sealed interface Entity {
     var y: Double
     val width: Double
     val height: Double
-    val round: Boolean
     var speed: Double
     var dx: Double
     var dy: Double
@@ -22,7 +21,11 @@ sealed interface Entity {
         TODO()
     }
 
-    fun update(elapsedTime: Milliseconds)
+    fun update(elapsedTime: Milliseconds) {
+        x += dx * elapsedTime
+        y += dy * elapsedTime
+    }
+
     fun render(graphics: Graphics2D)
 }
 

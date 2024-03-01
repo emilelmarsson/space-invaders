@@ -1,4 +1,4 @@
 package entity
 
-interface Enemy : LivingEntity {}
+interface Enemy : LivingEntity
 

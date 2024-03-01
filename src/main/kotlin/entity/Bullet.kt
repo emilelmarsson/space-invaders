@@ -3,13 +3,12 @@ package entity;
 import java.awt.image.BufferedImage
 
 data class Bullet(
-    override var x: Int,
-    override var y: Int,
-    override var dx: Int,
-    override var dy: Int,
-    override val width: Int,
-    override val height: Int,
+    override var x: Double,
+    override var y: Double,
+    override var speed: Double,
+    override var dx: Double,
+    override var dy: Double,
+    override val width: Double,
+    override val height: Double,
     override val image: BufferedImage
-) : Entity {
-    override val round: Boolean = true
-}
+) : RenderedEntity

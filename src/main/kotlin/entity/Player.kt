@@ -21,7 +21,6 @@ data class Player(
     override val animation: Animation,
     override var lastFired: Epoch = 0,
     override val firingDelay: Milliseconds,
-    override val round: Boolean = true,
 ) : LivingEntity, FiringEntity, AnimatedEntity {
 
     private val rocketFire: RocketFire = this.RocketFire()
@@ -52,7 +51,8 @@ data class Player(
     }
 
     override fun update(elapsedTime: Milliseconds) {
-        super.update(elapsedTime)
+        // Update animation
+        animation.update(elapsedTime)
 
         // Update position
         x += dx * elapsedTime
@@ -91,7 +91,6 @@ data class Player(
         override var dy: Double = 0.0,
         override val width: Double = TODO(),
         override val height: Double = TODO(),
-        override val round: Boolean = true,
         override val animation: Animation = Animations.ROCKET_ANIMATION,
     ) : AnimatedEntity {
 
