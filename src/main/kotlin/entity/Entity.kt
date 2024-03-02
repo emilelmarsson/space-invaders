@@ -21,10 +21,7 @@ sealed interface Entity {
         TODO()
     }
 
-    fun update(elapsedTime: Milliseconds) {
-        x += dx * elapsedTime
-        y += dy * elapsedTime
-    }
+    fun update(elapsedTime: Milliseconds)
 
     fun render(graphics: Graphics2D)
 }

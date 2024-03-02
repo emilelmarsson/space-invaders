@@ -22,7 +22,7 @@ data class Player(
     override var healthPoints: Int = maxHealthPoints,
     override val animation: Animation,
     override var lastFired: Epoch = 0,
-    override val firingDelay: Milliseconds,
+    override var firingDelay: Milliseconds,
 ) : LivingEntity, FiringEntity, AnimatedEntity {
 
     private val rocketFire: RocketFire = this.RocketFire()
@@ -54,10 +54,6 @@ data class Player(
     fun isMovingUp(): Boolean = dy < 0
     fun isMovingDown(): Boolean = dy > 0
     fun isMoving(): Boolean = dx != 0.0 || dy != 0.0
-
-    fun consume(powerUp: PowerUp) {
-
-    }
 
     override fun fire(angle: Double): List<Bullet>? {
         val now: Epoch = System.currentTimeMillis()
