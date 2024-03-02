@@ -42,7 +42,7 @@ interface ColoredEntity : Entity {
     }
 }
 
-interface RenderedEntity : Entity {
+interface SpriteEntity : Entity {
     val image: BufferedImage
 
     override fun render(graphics: Graphics2D) {
@@ -50,7 +50,7 @@ interface RenderedEntity : Entity {
     }
 }
 
-interface AnimatedEntity : RenderedEntity {
+interface AnimatedEntity : SpriteEntity {
     override val image: BufferedImage
         get() {
             val currentFrame: Animation.Frame = animation.currentFrame()

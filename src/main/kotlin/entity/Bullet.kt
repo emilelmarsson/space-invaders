@@ -12,7 +12,7 @@ data class Bullet(
     override val width: Double,
     override val height: Double,
     override val image: BufferedImage
-) : RenderedEntity {
+) : SpriteEntity {
 
     override fun update(elapsedTime: Milliseconds) {
         x += dx * elapsedTime

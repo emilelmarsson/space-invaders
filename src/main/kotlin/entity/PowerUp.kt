@@ -4,7 +4,7 @@ import game.Milliseconds
 import graphics.Images
 import java.awt.image.BufferedImage
 
-sealed class PowerUp : RenderedEntity {
+sealed class PowerUp : SpriteEntity {
     override val width: Double = 50.0
     override val height: Double = 50.0
     override var speed: Double = 0.0
@@ -70,6 +70,12 @@ sealed class TimedPowerUp : PowerUp() {
 
     fun isActive(): Boolean {
         return isExhausted() && (System.currentTimeMillis() - startTime < length)
+    }
+
+    fun progressionPercentage(): Long {
+        val progress: Milliseconds = System.currentTimeMillis() - startTime;
+        val percentage: Long = (100 * progress) / length
+        return Math.clamp(percentage, 0L, 100L)
     }
 
     override fun hashCode(): Int {

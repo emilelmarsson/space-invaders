@@ -1,4 +1,3 @@
 package entity
 
-interface Enemy : LivingEntity
-
+sealed interface Enemy : LivingEntity
