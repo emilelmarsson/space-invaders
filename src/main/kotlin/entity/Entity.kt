@@ -17,7 +17,12 @@ sealed interface Entity {
     var dy: Double
 
     fun collidesWith(that: Entity): Boolean {
-        TODO()
+        val thisRight: Double = this.x + this.width
+        val thisBottom: Double = this.y + this.height
+        val thatRight: Double = that.x + that.width
+        val thatBottom: Double = that.y + that.height
+
+        return !(this.x > thatRight || thisRight < that.x || this.y > thatBottom || thisBottom < that.y)
     }
 
     fun update(elapsedTime: Milliseconds)
