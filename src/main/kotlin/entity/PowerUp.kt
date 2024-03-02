@@ -32,7 +32,7 @@ sealed class PowerUp : RenderedEntity {
         }
     }
 
-    protected fun isExhausted(): Boolean {
+    fun isExhausted(): Boolean {
         return consumed || (System.currentTimeMillis() - spawnTime >= lifeTime)
     }
 
@@ -70,6 +70,17 @@ sealed class TimedPowerUp : PowerUp() {
 
     fun isActive(): Boolean {
         return isExhausted() && (System.currentTimeMillis() - startTime < length)
+    }
+
+    override fun hashCode(): Int {
+        return javaClass.hashCode()
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (other == null) {
+            return false
+        }
+        return this.javaClass == other.javaClass
     }
 }
 

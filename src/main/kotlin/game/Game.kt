@@ -8,13 +8,8 @@ import entity.Particle
 import entity.Player
 import java.awt.Graphics2D
 
-class Game (
-    private val graphics: Graphics2D
-) : Runnable {
-
-    companion object {
-        const val FPS: Int = 60
-    }
+object Game : Runnable {
+    const val FPS: Int = 60
 
     private var running = true
     private var paused = false

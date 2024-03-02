@@ -7,7 +7,7 @@ data object Board {
     const val HEIGHT: Int = 512
 
     fun Entity.isOutOfBounds(): Boolean {
-        return (this.x + this.width > WIDTH) || (this.y + this.height > HEIGHT)
+        return (this.x - this.width < 0) || (this.y - this.height < 0) || (this.x > WIDTH) || (this.y > HEIGHT)
     }
     fun Entity.isInBounds(): Boolean = !this.isOutOfBounds()
 }

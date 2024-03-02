@@ -1,8 +1,5 @@
 package entity
 
-import Bullet
-import action.LimitedAction
-import action.RepeatedAction
 import animation.Animation
 import animation.Animations
 import game.Board
@@ -28,32 +25,31 @@ data class Player(
     private val rocketFire: RocketFire = this.RocketFire()
     private val particles: MutableList<Particle> = mutableListOf()
     private val bullets: MutableList<Bullet> = mutableListOf()
-
-    private val fireAction = LimitedAction(
-        delay = 150,
-        limitedAction = {
-            TODO("")
-        }
-    )
-
-    private val repeatedActions: List<RepeatedAction> = listOf(
-        RepeatedAction(
-            delay = 50,
-            repeatedAction = {
-                if (isMoving()) {
-                    TODO("Spawn particles in moving direction")
-                } else {
-                    TODO("Spawn particles in random direction")
-                }
-            }
-        )
-    )
+    private val activePowerUps: MutableSet<TimedPowerUp> = mutableSetOf()
 
     fun isMovingLeft(): Boolean = dx < 0
     fun isMovingRight(): Boolean = dx > 0
     fun isMovingUp(): Boolean = dy < 0
     fun isMovingDown(): Boolean = dy > 0
     fun isMoving(): Boolean = dx != 0.0 || dy != 0.0
+
+    fun isPowered(): Boolean {
+        return activePowerUps.isNotEmpty() && activePowerUps.any(TimedPowerUp::isActive)
+    }
+
+    fun hasRapidFire(): Boolean {
+        return activePowerUps.isNotEmpty() && activePowerUps.any { it is RapidFire }
+    }
+
+    fun consume(powerUp: PowerUp) {
+        if (powerUp is TimedPowerUp && powerUp !in activePowerUps && !powerUp.isExhausted()) {
+            activePowerUps += powerUp
+        }
+
+        if (!powerUp.isExhausted()) {
+            powerUp.applyTo(this)
+        }
+    }
 
     override fun fire(angle: Double): List<Bullet>? {
         val now: Epoch = System.currentTimeMillis()
@@ -72,23 +68,40 @@ data class Player(
         y += dy * elapsedTime
 
         // Update particles
-        val iterator: MutableIterator<Particle> = particles.iterator()
-        while (iterator.hasNext()) {
-            val particle: Particle = iterator.next()
+        val particleIterator: MutableIterator<Particle> = particles.iterator()
+        while (particleIterator.hasNext()) {
+            val particle: Particle = particleIterator.next()
             if (with (Board) { particle.isOutOfBounds() }) {
-                iterator.remove()
+                particleIterator.remove()
             } else {
                 particle.update(elapsedTime)
             }
         }
 
+        // Update bullets
+        val bulletIterator: MutableIterator<Bullet> = bullets.iterator()
+        while (bulletIterator.hasNext()) {
+            val bullet: Bullet = bulletIterator.next()
+            if (with (Board) { bullet.isOutOfBounds() }) {
+                bulletIterator.remove()
+            } else {
+                bullet.update(elapsedTime)
+                TODO("Bullet - enemy hit detection")
+            }
+        }
+
+        // Remove inactive power-ups
+        val powerUpIterator: MutableIterator<TimedPowerUp> = activePowerUps.iterator()
+        while (particleIterator.hasNext()) {
+            val powerUp: TimedPowerUp = powerUpIterator.next()
+            if (!powerUp.isActive()) {
+                powerUpIterator.remove()
+                TODO("Reverse power-up effect")
+            }
+        }
+
         // Update rocket fire
         rocketFire.update(elapsedTime)
-
-        // Perform actions
-        for (repeatedAction: RepeatedAction in repeatedActions) {
-            repeatedAction.perform()
-        }
     }
 
     override fun render(graphics: Graphics2D) {

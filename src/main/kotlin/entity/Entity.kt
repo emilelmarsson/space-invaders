@@ -1,6 +1,5 @@
 package entity
 
-import Bullet
 import animation.Animation
 import game.Epoch
 import game.Milliseconds
@@ -17,7 +16,7 @@ sealed interface Entity {
     var dx: Double
     var dy: Double
 
-    infix fun collidesWith(other: Entity): Boolean {
+    fun collidesWith(that: Entity): Boolean {
         TODO()
     }
 
@@ -66,6 +65,6 @@ interface AnimatedEntity : RenderedEntity {
 
 interface FiringEntity : Entity {
     var lastFired: Epoch
-    val firingDelay: Milliseconds
+    var firingDelay: Milliseconds
     fun fire(angle: Double): List<Bullet>?
 }
