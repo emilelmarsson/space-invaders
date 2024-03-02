@@ -30,6 +30,7 @@ sealed interface Entity {
 }
 
 interface LivingEntity : Entity {
+    val maxHealthPoints: Int
     var healthPoints: Int
     fun isAlive(): Boolean = healthPoints > 0
     fun isDead(): Boolean = !isAlive()
