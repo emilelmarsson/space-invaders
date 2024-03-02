@@ -34,7 +34,7 @@ data class Player(
     fun isMoving(): Boolean = dx != 0.0 || dy != 0.0
 
     fun isPowered(): Boolean {
-        return activePowerUps.isNotEmpty() && activePowerUps.any(TimedPowerUp::isActive)
+        return activePowerUps.isNotEmpty()
     }
 
     fun hasRapidFire(): Boolean {
@@ -66,6 +66,7 @@ data class Player(
         // Update position
         x += dx * elapsedTime
         y += dy * elapsedTime
+        boundsCheck()
 
         // Update particles
         val particleIterator: MutableIterator<Particle> = particles.iterator()
@@ -102,6 +103,21 @@ data class Player(
 
         // Update rocket fire
         rocketFire.update(elapsedTime)
+    }
+
+    private fun boundsCheck() {
+        if (x < 0) {
+            x = 0.0
+        }
+        if (y < 0) {
+            y = 0.0
+        }
+        if (x + width > Board.WIDTH) {
+            x = Board.WIDTH - width
+        }
+        if (y + height > Board.HEIGHT) {
+            y = Board.HEIGHT - height
+        }
     }
 
     override fun render(graphics: Graphics2D) {
