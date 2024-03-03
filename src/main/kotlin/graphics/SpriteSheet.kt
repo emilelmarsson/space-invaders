@@ -8,11 +8,11 @@ object SpriteSheet {
     private const val SPRITE_WIDTH: Int = 16
     private val SHEET: BufferedImage = ImageIO.read(File("src/main/resources/spritesheet.png"))
 
-    operator fun get(x: Int, y: Int): BufferedImage {
-        return SHEET.getSubimage(x * SPRITE_WIDTH, y * SPRITE_WIDTH, SPRITE_WIDTH, SPRITE_WIDTH)
-    }
-
-    operator fun get(x: Int, y: Int, xWidth: Int = 1, yWidth: Int = 1): BufferedImage {
+    operator fun get(x: Byte, y: Byte, xWidth: Byte = 1, yWidth: Byte = 1): BufferedImage {
+        assert(x in 0..15)
+        assert(y in 0..15)
+        assert(xWidth in 0..15)
+        assert(yWidth in 0..15)
         return SHEET.getSubimage(x * SPRITE_WIDTH, y * SPRITE_WIDTH, xWidth * SPRITE_WIDTH, yWidth * SPRITE_WIDTH)
     }
 }
