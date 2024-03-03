@@ -44,7 +44,7 @@ data class HealthPack(
     override var y: Double
 ) : PowerUp() {
 
-    override val image: BufferedImage = Images.HEALTH_PACK
+    override val image: BufferedImage = Images.HEALTH_PACK_ICON
 
     override val powerUp: (Player) -> Unit = { player: Player ->
         val maxHealth: Int = player.maxHealthPoints
@@ -95,7 +95,7 @@ data class RapidFire(
     override var y: Double,
 ) : TimedPowerUp() {
 
-    override val image: BufferedImage = Images.RAPID_FIRE
+    override val image: BufferedImage = Images.RAPID_FIRE_ICON
     override val length: Milliseconds = TODO()
 
     override val powerUp: (Player) -> Unit = { player: Player ->

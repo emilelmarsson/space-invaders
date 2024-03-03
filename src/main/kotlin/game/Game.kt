@@ -1,20 +1,30 @@
 package game
 
+import animation.Animations
 import entity.Bullet
 import entity.Enemy
 import entity.Entity
-import entity.LivingEntity
 import entity.Particle
 import entity.Player
 import java.awt.Graphics2D
 
-object Game : Runnable {
-    const val FPS: Int = 60
+
+class Game (val graphics: Graphics2D) : Runnable {
+    private val FPS: Int = 60
 
     private var running = true
     private var paused = false
 
-    private val player: Player = TODO()
+    private val player: Player = Player(
+        x = Board.WIDTH / 2.0,
+        y = Board.HEIGHT / 2.0,
+        width = 16.0,
+        height = 16.0,
+        firingDelay = 500L,
+        speed = 3.0,
+        maxHealthPoints = 6,
+        animation = Animations.PLAYER_ANIMATION
+    )
     private val playerBullets: MutableList<Bullet> = mutableListOf()
     private val particles: MutableList<Particle> = mutableListOf()
     private val enemies: MutableList<Enemy> = mutableListOf()
@@ -24,9 +34,10 @@ object Game : Runnable {
     }
 
     override fun run() {
+        println("Hej")
         gameLoop { elapsedTime: Milliseconds ->
             update(elapsedTime)
-            // render(graphics)
+            render(graphics)
         }
     }
 
@@ -54,15 +65,14 @@ object Game : Runnable {
     private fun update(elapsedTime: Milliseconds) {
         for (entity: Entity in entities()) {
             entity.update(elapsedTime)
-
-            if (entity is LivingEntity && entity.isDead()) {
-                entities()
-            }
         }
     }
 
     private fun render(graphics: Graphics2D) {
         for (entity: Entity in entities()) {
+            if (entity is Player) {
+                println("Draw player")
+            }
             entity.render(graphics)
         }
     }

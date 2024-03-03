@@ -22,7 +22,7 @@ data class Player(
     override var firingDelay: Milliseconds,
 ) : LivingEntity, FiringEntity, AnimatedEntity {
 
-    private val rocketFire: RocketFire = this.RocketFire()
+    //private val rocketFire: RocketFire = this.RocketFire()
     private val particles: MutableList<Particle> = mutableListOf()
     private val bullets: MutableList<Bullet> = mutableListOf()
     private val activePowerUps: MutableSet<TimedPowerUp> = mutableSetOf()
@@ -102,7 +102,7 @@ data class Player(
         }
 
         // Update rocket fire
-        rocketFire.update(elapsedTime)
+        // rocketFire.update(elapsedTime)
     }
 
     private fun boundsCheck() {
@@ -129,7 +129,7 @@ data class Player(
 
     }
 
-    private inner class RocketFire (
+    /*private inner class RocketFire (
         override var speed: Double = 0.0,
         override var dx: Double = 0.0,
         override var dy: Double = 0.0,
@@ -160,5 +160,5 @@ data class Player(
                 super.update(elapsedTime)
             }
         }
-    }
+    }*/
 }
