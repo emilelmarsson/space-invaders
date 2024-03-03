@@ -122,7 +122,6 @@ data class Player(
 
     override fun render(graphics: Graphics2D) {
         super.render(graphics)
-        TODO()
     }
 
     override fun deathAction() {

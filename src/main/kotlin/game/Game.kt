@@ -14,8 +14,10 @@ class Game (
     var running: Boolean = true,
     var paused: Boolean = false
 ) : Runnable {
-
-    private val FPS: Int = 60
+    companion object {
+        const val FPS: Int = 60
+        const val FRAME_RATE: Milliseconds = (1000L / FPS)
+    }
 
     private val player: Player = Player(
         x = Board.WIDTH / 2.0,
@@ -37,28 +39,28 @@ class Game (
 
     override fun run() {
         gameLoop { elapsedTime: Milliseconds ->
-            update(elapsedTime)
             render(graphics)
+            update(elapsedTime)
         }
     }
 
     private inline fun gameLoop(gameLogicFunction: (elapsedTime: Milliseconds) -> Unit) {
         var startTime: Milliseconds = System.currentTimeMillis()
-        val frame: Milliseconds = (1000L * 1000L / FPS)
-        var elapsedTime: Milliseconds = 0
+        var elapsedTime: Milliseconds
 
         while (running) {
-            gameLogicFunction(elapsedTime)
-
             elapsedTime = System.currentTimeMillis() - startTime
-            if (elapsedTime < frame) {
-                val sleep: Long = (frame - elapsedTime) / (1000L * 1000L)
+            if (elapsedTime < FRAME_RATE) {
+                val sleep: Long = FRAME_RATE - elapsedTime
                 try {
                     Thread.sleep(sleep)
                 } catch (e: InterruptedException) {
                     e.printStackTrace()
                 }
             }
+
+            gameLogicFunction(elapsedTime)
+
             startTime += elapsedTime
         }
     }

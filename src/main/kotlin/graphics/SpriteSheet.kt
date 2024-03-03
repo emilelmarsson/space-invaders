@@ -11,4 +11,8 @@ object SpriteSheet {
     operator fun get(x: Int, y: Int): BufferedImage {
         return SHEET.getSubimage(x * SPRITE_WIDTH, y * SPRITE_WIDTH, SPRITE_WIDTH, SPRITE_WIDTH)
     }
+
+    operator fun get(x: Int, y: Int, xWidth: Int = 1, yWidth: Int = 1): BufferedImage {
+        return SHEET.getSubimage(x * SPRITE_WIDTH, y * SPRITE_WIDTH, xWidth * SPRITE_WIDTH, yWidth * SPRITE_WIDTH)
+    }
 }
