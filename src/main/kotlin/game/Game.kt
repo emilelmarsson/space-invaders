@@ -9,11 +9,13 @@ import entity.Player
 import java.awt.Graphics2D
 
 
-class Game (val graphics: Graphics2D) : Runnable {
-    private val FPS: Int = 60
+class Game (
+    val graphics: Graphics2D,
+    var running: Boolean = true,
+    var paused: Boolean = false
+) : Runnable {
 
-    private var running = true
-    private var paused = false
+    private val FPS: Int = 60
 
     private val player: Player = Player(
         x = Board.WIDTH / 2.0,
@@ -34,14 +36,13 @@ class Game (val graphics: Graphics2D) : Runnable {
     }
 
     override fun run() {
-        println("Hej")
         gameLoop { elapsedTime: Milliseconds ->
             update(elapsedTime)
             render(graphics)
         }
     }
 
-    private fun gameLoop(gameLogicFunction: (elapsedTime: Milliseconds) -> Unit) {
+    private inline fun gameLoop(gameLogicFunction: (elapsedTime: Milliseconds) -> Unit) {
         var startTime: Milliseconds = System.currentTimeMillis()
         val frame: Milliseconds = (1000L * 1000L / FPS)
         var elapsedTime: Milliseconds = 0
@@ -70,9 +71,6 @@ class Game (val graphics: Graphics2D) : Runnable {
 
     private fun render(graphics: Graphics2D) {
         for (entity: Entity in entities()) {
-            if (entity is Player) {
-                println("Draw player")
-            }
             entity.render(graphics)
         }
     }
